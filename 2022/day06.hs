@@ -2,6 +2,8 @@ import System.IO
 import Control.Monad
 import Data.List
 
+-- https://adventofcode.com/2022/day/6
+
 buffer :: Int -> String -> Int
 buffer n s
   | nub (take n s) == take n s = n

@@ -3,6 +3,8 @@ import Control.Monad
 import Data.List.Split
 import Data.List
 
+-- https://adventofcode.com/2022/day/1
+
 toNum :: String -> Int
 toNum s = read s :: Int
 

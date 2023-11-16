@@ -3,6 +3,8 @@ import Control.Monad
 import Data.List.Split
 import Data.List
 
+-- https://adventofcode.com/2022/day/2
+
 data Symbol = Rock | Paper | Scissors deriving (Eq, Show)
 
 beats :: Symbol -> Symbol

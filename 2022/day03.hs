@@ -4,6 +4,8 @@ import Data.List.Split
 import Data.Char
 import Data.List
 
+-- https://adventofcode.com/2022/day/3
+
 contains :: Eq a => [a] -> a -> Bool
 contains = flip elem
 

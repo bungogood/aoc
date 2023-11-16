@@ -3,6 +3,8 @@ import Control.Monad
 import Data.List.Split
 import Data.List
 
+-- https://adventofcode.com/2020/day/8
+
 type Instr = Int
 
 execute :: String -> Int -> (Instr, Int)

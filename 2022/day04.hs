@@ -4,6 +4,8 @@ import Data.List.Split
 import Data.List
 import Data.Char
 
+-- https://adventofcode.com/2022/day/4
+
 toNum :: String -> Int
 toNum s = read s :: Int
 
