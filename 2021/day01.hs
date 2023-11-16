@@ -1,6 +1,4 @@
-import System.IO  
-import Control.Monad
-import Data.List.Split
+import System.IO
 import Data.List
 
 -- https://adventofcode.com/2021/day/1
@@ -16,9 +14,6 @@ increases xs = length . filter (uncurry (<)) $ zip xs (tail xs)
 
 slidingWindow :: Int -> [a] -> [[a]]
 slidingWindow n = filter ((== n) . length) . map (take n) . tails
-
-mean :: [Int] -> Int
-mean xs = sum xs `div` length xs
 
 main = do
   handler <- openFile "input/day01.txt" ReadMode
