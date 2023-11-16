@@ -11,13 +11,18 @@ cd year
 runghc day[day].hs
 ```
 
-## Clean Up
+## Progress
 
-Remove all untracked files with:
-
-```
-git clean -xdf
-```
+| Year | Progress |
+| ---- | -------- |
+| 2022 | 5/25     |
+| 2021 | 1/25     |
+| 2020 | 1/25     |
+| 2019 | 1/25     |
+| 2018 | 0/25     |
+| 2017 | 0/25     |
+| 2016 | 0/25     |
+| 2015 | 0/25     |
 
 ## Packages
 
@@ -31,6 +36,14 @@ Cabal packages:
 
 -   `split`
 -   `QuickCheck`
+
+## Clean Up
+
+Remove all untracked files with:
+
+```
+git clean -xdf
+```
 
 ## References
 
