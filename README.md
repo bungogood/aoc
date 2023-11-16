@@ -3,7 +3,7 @@
 ## Run Advent
 
 ```
-ghc day??.hs && ./day??
+runghc day??.hs
 ```
 
 ## Clean Up
@@ -13,13 +13,16 @@ git clean -xdf
 ```
 
 ## Packages
+
 ```
 cabal install --lib [module]
 ```
 
 Cabal packages:
-- split
+
+-   split
+-   QuickCheck
 
 ## References
 
-- [aoc](https://adventofcode.com/)
+-   [aoc](https://adventofcode.com/)
