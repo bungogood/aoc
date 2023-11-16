@@ -1,4 +1,4 @@
-import System.IO  
+import System.IO
 import Control.Monad
 import Data.List.Split
 import Data.List
@@ -12,7 +12,7 @@ execute "nop" x = (1, 0)
 
 fsm :: [(String, Int)] -> [Instr] -> Int -> Instr -> (Bool, Int)
 fsm instr seen acc n
-  | elem n seen = (False, acc)
+  | n `elem` seen = (False, acc)
   | n == length instr = (True, acc)
   | otherwise   = fsm instr (n:seen) (acc + inc) (n + delta)
   where
@@ -38,7 +38,7 @@ toTuple :: [String] -> (String, Int)
 toTuple [x,y] = (x, toNum y)
 
 readInstr :: String -> [(String, Int)]
-readInstr = map (toTuple . splitOn " ") . splitOn "\n"
+readInstr = map (toTuple . splitOn " ") . lines
 
 main = do
   handler <- openFile "input/day08.txt" ReadMode

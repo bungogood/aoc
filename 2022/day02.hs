@@ -46,7 +46,7 @@ outcomeMap (x, 'Y') = (x, x)
 outcomeMap (x, 'Z') = (x, beats x)
 
 toGame :: String -> [(Symbol, Char)]
-toGame = map (tuplify . map head . splitOn " ") . splitOn "\n"
+toGame = map (tuplify . map head . splitOn " ") . lines
   where
     tuplify :: [Char] -> (Symbol, Char)
     tuplify [x,y] = (mapSymbol x, y)

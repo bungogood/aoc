@@ -7,7 +7,7 @@ toNum :: String -> Int
 toNum s = read s :: Int
 
 elfCals :: String -> [[Int]]
-elfCals = map (map toNum . splitOn "\n") . splitOn "\n\n"
+elfCals = map (map toNum) . splitOn [""] . lines
 
 bestElf :: [[Int]] -> Int
 bestElf = maximum . map sum

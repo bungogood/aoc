@@ -17,7 +17,7 @@ toRange :: String -> (Int, Int)
 toRange = toTuple . map toNum . splitOn "-"
 
 readRanges :: String -> [((Int, Int), (Int, Int))]
-readRanges = map (toTuple . map toRange . splitOn ",") . splitOn "\n"
+readRanges = map (toTuple . map toRange . splitOn ",") . lines
 
 inside :: ((Int, Int), (Int, Int)) -> Bool
 inside ((a, b), (c, d)) = (a <= c && d <= b) || (c <= a && b <= d)
