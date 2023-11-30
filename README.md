@@ -22,7 +22,7 @@ runghc day[day].hs
 | 2018 | 0/25     |
 | 2017 | 1/25     |
 | 2016 | 0/25     |
-| 2015 | 3/25     |
+| 2015 | 4/25     |
 
 ## Packages
 
@@ -34,6 +34,8 @@ cabal install --lib [module]
 
 Cabal packages:
 
+-   `cryptonite`
+-   `memory`
 -   `split`
 -   `QuickCheck`
 
