@@ -22,7 +22,7 @@ runghc day[day].hs
 | 2018 | 0/25     |
 | 2017 | 1/25     |
 | 2016 | 0/25     |
-| 2015 | 4/25     |
+| 2015 | 5/25     |
 
 ## Packages
 
@@ -39,14 +39,23 @@ Cabal packages:
 -   `split`
 -   `QuickCheck`
 
+## Fetching Input
+
+The input for each day is stored in a file named for the day in `[year]/input/day[day].txt`. The input can be fetched using the `fetch` script after saving an AoC session token saving it to `SESSION`:
+
+```bash
+./fetch.sh [year] [day]
+```
+
 ## Clean Up
 
 Remove all untracked files with:
 
-```
+```bash
 git clean -xdf
 ```
 
 ## References
 
 -   [Advent of Code](https://adventofcode.com)
+-   [Haskell](https://www.haskell.org)
