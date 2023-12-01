@@ -18,7 +18,7 @@ if [ ! -d "$DIR" ]; then
 fi
 
 # Use curl to download the file
-# Replace {COOKIE} with your actual cookie token from Advent of Code
-curl -s --cookie $COOKIE $URL --output $FILE
+# Replace {SESSION} with your actual session token from Advent of Code request headers
+curl -s -b session=$SESSION $URL --output $FILE
 
 echo "Downloaded input for Year $YEAR, Day ${DAY#0} to $FILE"
