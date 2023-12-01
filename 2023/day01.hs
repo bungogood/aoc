@@ -2,6 +2,7 @@ import System.IO
 import Data.List (find, isPrefixOf)
 import Data.Char (isDigit)
 import Control.Applicative ((<|>))
+import Data.Maybe (mapMaybe)
 
 -- https://adventofcode.com/2023/day/1
 
@@ -25,17 +26,22 @@ pairs = [
 numPrefix :: String -> Maybe Char
 numPrefix s = snd <$> find (flip isPrefixOf s . fst) pairs
 
-extractor :: (String -> Maybe Char) -> String -> [Char]
-extractor f [] = []
-extractor f (x:xs) = case f (x:xs) of
-    Just d -> d : rest
-    Nothing -> rest
-    where rest = extractor f xs
+findFirst :: ([a] -> Maybe b) -> [a] -> Maybe b
+findFirst _ [] = Nothing
+findFirst f (x:xs) = f (x:xs) <|> findFirst f xs
 
-firstLast :: (String -> Maybe Char) -> String -> Int
+findLast :: ([a] -> Maybe b) -> [a] -> Maybe b
+findLast f xs = walk f [] (reverse xs)
+  where
+    walk :: ([a] -> Maybe b) -> [a] -> [a] -> Maybe b
+    walk _ _ [] = Nothing
+    walk f acc (x:xs) = f (x:acc) <|> walk f (x:acc) xs
+
+firstLast :: (String -> Maybe Char) -> String -> Maybe Int
 firstLast f s = do
-    let digits = extractor f s
-    toNum [head digits, last digits]
+    firstDigit <- findFirst f s
+    lastDigit <- findLast f s
+    Just (toNum [firstDigit, lastDigit])
 
 digit :: String -> Maybe Char
 digit (x:_) | isDigit x = Just x
@@ -49,8 +55,8 @@ main = do
   handler <- openFile "input/day01.txt" ReadMode
   contents <- hGetContents handler
   let values = lines contents
-  print (sum $ map (firstLast digit) values)
-  print (sum $ map (firstLast both) values)
+  print (sum $ mapMaybe (firstLast digit) values)
+  print (sum $ mapMaybe (firstLast both) values)
   hClose handler
 
 testCases1 :: [(String, Maybe Int)]
