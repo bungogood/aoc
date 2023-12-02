@@ -4,6 +4,8 @@ import Data.List (foldl')
 import Data.Map (Map)
 import qualified Data.Map as Map
 
+-- https://adventofcode.com/2023/day/2
+
 type Game = (Int, [Round])
 type Round = [(String, Int)]
 
