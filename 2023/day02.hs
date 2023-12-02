@@ -1,39 +1,30 @@
 import System.IO
-import Data.Char (isDigit)
 import Data.List.Split (splitOn)
+import Data.List (foldl')
 import Data.Map (Map)
 import qualified Data.Map as Map
-
--- https://adventofcode.com/2023/day/2
 
 type Game = (Int, [Round])
 type Round = [(String, Int)]
 
 toNum :: String -> Int
-toNum s = read s :: Int
-
-toPair :: String -> (String, Int)
-toPair s = (name, toNum num)
-  where
-    [num, name] = words s
+toNum = read
 
 toGame :: String -> Game
-toGame vs = (gid, selections)
-  where
-    [game, rest] = splitOn ":" vs
-    gid = toNum . last $ words game
-    selections = map (map toPair . splitOn ",") . splitOn ";" $ rest
+toGame vs = let [game, rest] = splitOn ":" vs
+                gid = toNum . last . words
+                rounds = map (map toPair . splitOn ",") . splitOn ";"
+                toPair s = let [count, cube] = words s in (cube, toNum count)
+            in (gid game, rounds rest)
 
 under :: Map String Int -> Map String Int -> Bool
-under limits counts = all (\(cube, count) -> count <= Map.findWithDefault 0 cube limits) (Map.toList counts)
+under limits = all (\(cube, count) -> count <= Map.findWithDefault 0 cube limits) . Map.toList
 
 most :: [Round] -> Map String Int
-most = foldl (foldl select) Map.empty
-  where
-    select acc' (cube, count) = Map.insert cube (count `max` Map.findWithDefault 0 cube acc') acc'
+most = foldl' (foldl' (\acc (cube, count) -> Map.insertWith max cube count acc)) Map.empty
 
 allUnderSumID :: Map String Int -> [Game] -> Int
-allUnderSumID limits = sum . map (\(gid, counts) -> if under limits (most counts) then gid else 0)
+allUnderSumID limits = sum . map (\(gid, rounds) -> if under limits (most rounds) then gid else 0)
 
 sumProduct :: [Game] -> Int
 sumProduct = sum . map (product . Map.elems . most . snd)
