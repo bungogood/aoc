@@ -11,49 +11,51 @@ data Item = Symbol Char | Number String deriving (Show, Eq)
 toNum :: String -> Int
 toNum = read
 
+toNumber :: Coord -> String -> [(Coord, Item)]
+toNumber (x, y) [] = []
+toNumber (x, y) rev = [((x - length rev, y), Number (reverse rev))]
+
 toItems :: [String] -> [(Coord, Item)]
 toItems (r:rs) = toItemsRec (0, 0) [] r rs
 
 toItemsRec :: Coord -> String -> String -> [String] -> [(Coord, Item)]
-toItemsRec (x, y) acc [] (r:rs) = [((x - length acc, y), Number acc) | not (null acc)] ++ toItemsRec (0, y + 1) [] r rs
-toItemsRec (x, y) acc ('.':cs) rs = [((x - length acc, y), Number acc) | not (null acc)] ++ toItemsRec (x + 1, y) [] cs rs
+toItemsRec (x, y) acc [] [] = toNumber (x, y) acc
+toItemsRec (x, y) acc [] (r:rs) = toNumber (x, y) acc ++ toItemsRec (0, y + 1) [] r rs
 toItemsRec (x, y) acc (c:cs) rs
-  | isDigit c = toItemsRec (x + 1, y) (acc ++ [c]) cs rs
-  | otherwise = addr ++ ((x, y), Symbol c) : toItemsRec (x + 1, y) [] cs rs
-  where addr = [((x - length acc, y), Number acc) | not (null acc)]
-toItemsRec (x, y) acc _ [] = [((x - length acc, y), Number acc) | not (null acc)]
+  | c == '.' = remaining
+  | isDigit c = toItemsRec (x + 1, y) (c:acc) cs rs
+  | otherwise = ((x, y), Symbol c) : remaining
+  where
+    remaining = toNumber (x, y) acc ++ toItemsRec (x + 1, y) [] cs rs
 
 splitter :: [(Coord, Item)] -> (Map Coord Char, [([Coord], Int)])
-splitter = foldl (\(sym, res) ((x, y), item) -> case item of
-    Symbol c -> (Map.insert (x, y) c sym, res)
-    Number s -> (sym, ([(x', y) | x' <- [x..x - 1 + length s]], toNum s) : res)
+splitter = foldl (\(sym, nums) item -> case item of
+    ((x, y), Symbol c) -> (Map.insert (x, y) c sym, nums)
+    ((x, y), Number s) -> let coords = [(x', y) | x' <- [x..x + length s - 1]]
+                          in (sym, (coords, toNum s) : nums)
   ) (Map.empty, [])
 
-adjactent :: Map Coord Char -> Coord -> Bool
-adjactent sym = any (\(x', y') -> Map.member (x', y') sym) . adj
+neighbours :: Coord -> [Coord]
+neighbours (x, y) = [(x + dx, y + dy) | dx <- [-1, 0, 1], dy <- [-1, 0, 1], dx /= 0 || dy /= 0]
 
-isHit :: Map Coord Char -> ([Coord], Int) -> Bool
-isHit sym (cs, n) = any (adjactent sym) cs
+isHitSym :: Map Coord Char -> ([Coord], Int) -> Bool
+isHitSym sym = any (symAdj sym) . fst
+  where symAdj sym = any (`Map.member` sym) . neighbours
 
 validNumberSum :: Map Coord Char -> [([Coord], Int)] -> Int
-validNumberSum sym = sum . map snd . filter (isHit sym)
+validNumberSum sym = sum . map snd . filter (isHitSym sym)
 
 charCoords :: Char -> Map Coord Char -> [Coord]
 charCoords c = Map.keys . Map.filter (== c)
 
 numNearProd :: [([Coord], Int)] -> Coord -> Int
-numNearProd cs t = if length near == 2 then product near else 0
-  where near = map snd $ filter (\(c, _) -> any (`elem` c) (adj t)) cs
+numNearProd nums tar = case map snd $ filter (isAdj . fst) nums of
+    [a, b] -> a * b
+    _ -> 0
+  where isAdj coords = any (`elem` coords) (neighbours tar)
 
-prodNearChar :: Map Coord Char -> [([Coord], Int)] -> Char -> Int
-prodNearChar sym cs c = sum . map (numNearProd cs) $ charCoords c sym
-
-adj :: Coord -> [Coord]
-adj (x, y) = [
-    (x - 1, y - 1), (x, y - 1), (x + 1, y - 1),
-    (x - 1, y), (x + 1, y),
-    (x - 1, y + 1), (x, y + 1), (x + 1, y + 1)
-  ]
+prodNearChar :: [([Coord], Int)] -> Char -> Map Coord Char -> Int
+prodNearChar cs c = sum . map (numNearProd cs) . charCoords c
 
 main :: IO ()
 main = do
@@ -62,19 +64,24 @@ main = do
   let tokens = toItems $ lines contents
   let (sym, nums) = splitter tokens
   print (validNumberSum sym nums)
-  print (prodNearChar sym nums '*')
+  print (prodNearChar nums '*' sym)
   hClose handler
 
-testCase :: ([String], [Int])
-testCase = ([
-    "467..114..",
-    "...*......",
-    "..35..633.",
-    "......#...",
-    "617*......",
-    ".....+.58.",
-    "..592.....",
-    "......755.",
-    "...$.*....",
-    ".664.598.."
-  ], [114, 58])
+testCase :: String
+testCase =
+  "467..114..\n\
+  \...*......\n\
+  \..35..633.\n\
+  \......#...\n\
+  \617*......\n\
+  \.....+.58.\n\
+  \..592.....\n\
+  \......755.\n\
+  \...$.*....\n\
+  \.664.598.."
+
+testPart1 :: [Int]
+testPart1 = [114, 58]
+
+testPart2 :: Int
+testPart2 = 467835
