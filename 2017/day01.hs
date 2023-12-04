@@ -13,8 +13,10 @@ offset o xs = zip xs (drop o xs ++ take o xs)
 counter :: [(Int, Int)] -> Int
 counter = sum . map fst . filter (uncurry (==))
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day01.txt" ReadMode
+  -- handler <- openFile "test/2017/day01.txt" ReadMode
+  handler <- openFile "input/2017/day01.txt" ReadMode
   contents <- hGetContents handler
   let digits = toDigits contents
   print (counter $ offset 1 digits)

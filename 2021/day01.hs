@@ -15,8 +15,10 @@ increases xs = length . filter (uncurry (<)) $ zip xs (tail xs)
 slidingWindow :: Int -> [a] -> [[a]]
 slidingWindow n = filter ((== n) . length) . map (take n) . tails
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day01.txt" ReadMode
+  -- handler <- openFile "test/2021/day01.txt" ReadMode
+  handler <- openFile "input/2021/day01.txt" ReadMode
   contents <- hGetContents handler
   let depths = findDepths contents
   print (increases depths)

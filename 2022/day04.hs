@@ -27,8 +27,10 @@ inside ((a, b), (c, d)) = (a <= c && d <= b) || (c <= a && b <= d)
 overlap :: ((Int, Int), (Int, Int)) -> Bool
 overlap ((a, b), (c, d)) = (c >= a || d >= a) && (b >= c || b >= d)
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day04.txt" ReadMode
+  -- handler <- openFile "test/2022/day04.txt" ReadMode
+  handler <- openFile "input/2022/day04.txt" ReadMode
   contents <- hGetContents handler
   let ranges = readRanges contents
   print (length $ filter inside  ranges)

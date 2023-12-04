@@ -18,7 +18,8 @@ repeated value seen (c:cs) ls | Set.member value seen = value
 
 main :: IO ()
 main = do
-  handler <- openFile "input/day01.txt" ReadMode
+  -- handler <- openFile "test/2018/day01.txt" ReadMode
+  handler <- openFile "input/2018/day01.txt" ReadMode
   contents <- hGetContents handler
   let changes = map toChange $ lines contents
   print (sum changes)

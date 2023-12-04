@@ -7,8 +7,7 @@ This repository contains my solutions for the [Advent of Code](https://adventofc
 Storing the input in a file named for the day in `[year]/input/day[day].hs` in the same directory as the
 
 ```
-cd year
-runghc day[day].hs
+runghc [year]/day[day].hs
 ```
 
 ## Progress

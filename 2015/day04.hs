@@ -18,8 +18,10 @@ matcher prefix input = head [i | i <- [1..], match prefix (C.pack (input ++ show
 finder :: Int -> String -> Int
 finder n = matcher (C.pack (replicate n '0'))
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day04.txt" ReadMode
+  -- handler <- openFile "test/2015/day04.txt" ReadMode
+  handler <- openFile "input/2015/day04.txt" ReadMode
   contents <- hGetContents handler
   let input = head (lines contents)
   print (finder 5 input)

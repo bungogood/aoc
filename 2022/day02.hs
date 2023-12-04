@@ -53,8 +53,10 @@ toGame = map (tuplify . map head . splitOn " ") . lines
     tuplify :: [Char] -> (Symbol, Char)
     tuplify [x,y] = (mapSymbol x, y)
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day02.txt" ReadMode
+  -- handler <- openFile "test/2022/day02.txt" ReadMode
+  handler <- openFile "input/2022/day02.txt" ReadMode
   contents <- hGetContents handler
   let symbols = toGame contents
   print ((points . map symbolMap) symbols)

@@ -26,8 +26,10 @@ repeated _ = False
 niceSecond :: String -> Bool
 niceSecond s = pair s && repeated s
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day05.txt" ReadMode
+  -- handler <- openFile "test/2015/day05.txt" ReadMode
+  handler <- openFile "input/2015/day05.txt" ReadMode
   contents <- hGetContents handler
   let inputs = lines contents
   print (length $ filter niceFirst inputs)

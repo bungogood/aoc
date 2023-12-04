@@ -24,8 +24,10 @@ splitAlt s = (first, second)
     first = [c | (i, c) <- zip [0..] s, even i]
     second = [c | (i, c) <- zip [0..] s, odd i]
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day03.txt" ReadMode
+  -- handler <- openFile "test/2015/day03.txt" ReadMode
+  handler <- openFile "input/2015/day03.txt" ReadMode
   contents <- hGetContents handler
   let (santa, robo) = splitAlt contents
   print (Set.size $ walk (0, 0) contents)

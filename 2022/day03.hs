@@ -35,8 +35,10 @@ common (l:ls) = foldl intersect l ls
 badges :: [String] -> Int
 badges = sum . map (priority . head. common) . chunksOf 3
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day03.txt" ReadMode
+  -- handler <- openFile "test/2022/day03.txt" ReadMode
+  handler <- openFile "input/2022/day03.txt" ReadMode
   contents <- hGetContents handler
   let rucksakes = toRucksakes contents
   print (mistakes rucksakes)

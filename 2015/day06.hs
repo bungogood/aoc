@@ -51,9 +51,10 @@ runner' (x, y) instrs = foldl (\acc coord -> acc + checker' coord reved) 0 coord
 
 main :: IO ()
 main = do
-    handler <- openFile "input/day06.txt" ReadMode
-    contents <- hGetContents handler
-    let instr = map toInstr $ lines contents
-    print (runner (1000, 1000) instr)
-    print (runner' (1000, 1000) instr)
-    hClose handler
+  -- handler <- openFile "test/2015/day06.txt" ReadMode
+  handler <- openFile "input/2015/day06.txt" ReadMode
+  contents <- hGetContents handler
+  let instr = map toInstr $ lines contents
+  print (runner (1000, 1000) instr)
+  print (runner' (1000, 1000) instr)
+  hClose handler

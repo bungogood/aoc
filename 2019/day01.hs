@@ -17,8 +17,10 @@ calFuel x
   | x <= 0 = 0
   | otherwise = x + calFuel (toFuel x)
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day01.txt" ReadMode
+  -- handler <- openFile "test/2019/day01.txt" ReadMode
+  handler <- openFile "input/2019/day01.txt" ReadMode
   contents <- hGetContents handler
   let masses = findMasses contents
   print (sum $ map toFuel masses)

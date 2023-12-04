@@ -15,8 +15,10 @@ wrapping (l, w, h) = 2 * l * w + 2 * w * h + 2 * h * l + minimum [l * w, w * h, 
 ribbon :: (Int, Int, Int) -> Int
 ribbon (l, w, h) = minimum [2 * l + 2 * w, 2 * w + 2 * h, 2 * h + 2 * l] + l * w * h
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day02.txt" ReadMode
+  -- handler <- openFile "test/2015/day02.txt" ReadMode
+  handler <- openFile "input/2015/day02.txt" ReadMode
   contents <- hGetContents handler
   let boxes = toBoxes contents
   print (sum . map wrapping $ boxes)

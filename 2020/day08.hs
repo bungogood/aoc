@@ -42,8 +42,10 @@ toTuple [x,y] = (x, toNum y)
 readInstr :: String -> [(String, Int)]
 readInstr = map (toTuple . splitOn " ") . lines
 
+main :: IO ()
 main = do
-  handler <- openFile "input/day08.txt" ReadMode
+  -- handler <- openFile "test/2020/day08.txt" ReadMode
+  handler <- openFile "input/2020/day08.txt" ReadMode
   contents <- hGetContents handler
   let instructions = readInstr contents
   print (snd $ fsm instructions [] 0 0)
