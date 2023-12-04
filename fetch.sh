@@ -1,31 +1,17 @@
 #!/bin/bash
 
 # Usage: ./fetch.sh year [day]
-# Usage for entire year: ./fetch.sh -a year
 
+# Load environment variables from .env file
 if [ -f .env ]; then
     export $(cat .env | xargs)
 fi
 
-ALL_DAYS=false
-
-# Check for the -a option
-if [ "$1" == "-a" ]; then
-    ALL_DAYS=true
-    shift
+# Check if SESSION variable is set
+if [ -z "$SESSION" ]; then
+    echo "Error: SESSION variable not set. Aborting."
+    exit 1
 fi
-
-# Function to download input for a given day
-download_day() {
-    YEAR=$1
-    DAY=$(printf "%02d" $2)  # Pad day with leading zero
-    URL="https://adventofcode.com/$YEAR/day/${DAY#0}/input"  # Remove leading zero for URL
-    FILE="$DIR/day$DAY.txt"
-
-    curl -s -b session=$SESSION $URL --output $FILE
-
-    echo "Downloaded $YEAR ${DAY#0} to $FILE"
-}
 
 YEAR=$1
 DIR="input/$YEAR"
@@ -35,12 +21,24 @@ if [ ! -d "$DIR" ]; then
     mkdir -p "$DIR"
 fi
 
+# Function to download input for a given day
+download_day() {
+    DAY=$(printf "%02d" $1)  # Pad day with leading zero
+    URL="https://adventofcode.com/$YEAR/day/${DAY#0}/input"  # Remove leading zero for URL
+    FILE="$DIR/day$DAY.txt"
+
+    if curl -s -b "session=$SESSION" "$URL" --output "$FILE"; then
+        echo "Downloaded $YEAR Day ${DAY#0} to $FILE"
+    else
+        echo "Failed $YEAR Day ${DAY#0}"
+    fi
+}
+
 # Download data for all days or a single day
-if [ "$ALL_DAYS" == "true" ]; then
+if [ -z "$2" ]; then
     for DAY in {1..25}; do
-        download_day $YEAR $DAY
+        download_day $DAY
     done
 else
-    DAY=$2
-    download_day $YEAR $DAY
+    download_day $2
 fi
