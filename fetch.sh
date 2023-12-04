@@ -13,19 +13,18 @@ if [ -z "$SESSION" ]; then
     exit 1
 fi
 
-YEAR=$1
-DIR="input/$YEAR"
-
-# Check if the required directories exist, create if not
-if [ ! -d "$DIR" ]; then
-    mkdir -p "$DIR"
-fi
-
 # Function to download input for a given day
 download_day() {
-    DAY=$(printf "%02d" $1)  # Pad day with leading zero
+    YEAR=$1
+    DAY=$(printf "%02d" $2)  # Pad day with leading zero
     URL="https://adventofcode.com/$YEAR/day/${DAY#0}/input"  # Remove leading zero for URL
+    DIR="input/$YEAR"
     FILE="$DIR/day$DAY.txt"
+
+    # Check if the required directories exist, create if not
+    if [ ! -d "$DIR" ]; then
+        mkdir -p "$DIR"
+    fi
 
     if curl -s -b "session=$SESSION" "$URL" --output "$FILE"; then
         echo "Downloaded $YEAR Day ${DAY#0} to $FILE"
@@ -37,8 +36,8 @@ download_day() {
 # Download data for all days or a single day
 if [ -z "$2" ]; then
     for DAY in {1..25}; do
-        download_day $DAY
+        download_day $1 $DAY
     done
 else
-    download_day $2
+    download_day $1 $2
 fi
