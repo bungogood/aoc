@@ -33,7 +33,8 @@ countCards cards = fst . foldl cont (0, []) $ map (length . dups) cards
 
 main :: IO ()
 main = do
-  contents <- readFile "input/day04.txt"
+  -- contents <- readFile "test/2023/day04.txt"
+  contents <- readFile "input/2023/day04.txt"
   let cards = map toCard . lines $ contents
   print $ sum $ map (dupsPow 2) cards
   print $ countCards cards

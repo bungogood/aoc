@@ -1,7 +1,16 @@
+# Editor
 .vscode/
+.idea/
+*~
 
-*.o
-*.hi
-
+# AoC
+input/
+test/
+.env
 day??
 tmp.txt
+
+# Haskell
+dist-newstyle/
+*.o
+*.hi

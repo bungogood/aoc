@@ -52,28 +52,10 @@ both s = digit s <|> numPrefix s
 
 main :: IO ()
 main = do
-  handler <- openFile "input/day01.txt" ReadMode
+  -- handler <- openFile "test/2023/day01.txt" ReadMode
+  handler <- openFile "input/2023/day01.txt" ReadMode
   contents <- hGetContents handler
   let values = lines contents
   print (sum $ mapMaybe (firstLast digit) values)
   print (sum $ mapMaybe (firstLast both) values)
   hClose handler
-
-testCases1 :: [(String, Maybe Int)]
-testCases1 = [
-    ("1abc2", Just 12),
-    ("pqr3stu8vwx", Just 38),
-    ("a1b2c3d4e5f", Just 15),
-    ("treb7uchet", Just 77)
-  ]
-
-testCases2 :: [(String, Maybe Int)]
-testCases2 = [
-    ("two1nine", Just 29),
-    ("eightwothree", Just 83),
-    ("abcone2threexyz", Just 13),
-    ("xtwone3four", Just 24),
-    ("4nineeightseven2", Just 42),
-    ("zoneight234", Just 14),
-    ("7pqrstsixteen", Just 76)
-  ]

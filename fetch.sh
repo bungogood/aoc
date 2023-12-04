@@ -9,7 +9,7 @@ fi
 YEAR=$1
 DAY=$(printf "%02d" $2)  # Pad day with leading zero if necessary
 URL="https://adventofcode.com/$YEAR/day/${DAY#0}/input"  # Remove leading zero for URL
-DIR="$YEAR/input"
+DIR="input/$YEAR"
 FILE="$DIR/day$DAY.txt"
 
 # Check if the required directories exist, create if not

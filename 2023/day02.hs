@@ -33,18 +33,10 @@ sumProduct = sum . map (product . Map.elems . most . snd)
 
 main :: IO ()
 main = do
-  handler <- openFile "input/day02.txt" ReadMode
+  -- handler <- openFile "test/2023/day02.txt" ReadMode
+  handler <- openFile "input/2023/day02.txt" ReadMode
   contents <- hGetContents handler
   let values = map toGame $ lines contents
   print (allUnderSumID (Map.fromList [("red", 12), ("green", 13), ("blue", 14)]) values)
   print (sumProduct values)
   hClose handler
-
-testCases :: [Game]
-testCases = [
-    (1,[[("blue",3),("red",4)],[("red",1),("green",2),("blue",6)],[("green",2)]]),
-    (2,[[("blue",1),("green",2)],[("green",3),("blue",4),("red",1)],[("green",1),("blue",1)]]),
-    (3,[[("green",8),("blue",6),("red",20)],[("blue",5),("red",4),("green",13)],[("green",5),("red",1)]]),
-    (4,[[("green",1),("red",3),("blue",6)],[("green",3),("red",6)],[("green",3),("blue",15),("red",14)]]),
-    (5,[[("red",6),("blue",1),("green",3)],[("blue",2),("red",1),("green",2)]])
-  ]
