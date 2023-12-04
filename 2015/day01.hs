@@ -1,22 +1,23 @@
 import System.Environment (getArgs)
 import System.IO (readFile)
+import Data.List (find)
+import Data.Maybe (fromJust)
 
 -- https://adventofcode.com/2015/day/1
 
-walk :: Int -> String -> Int
-walk f ('(':xs) = walk (f + 1) xs
-walk f (')':xs) = walk (f - 1) xs
-walk f _ = f
+updateFloor :: Int -> Char -> Int
+updateFloor f '(' = f + 1
+updateFloor f ')' = f - 1
 
-basement :: Int -> Int -> String -> Int
-basement f p ('(':xs) = basement (f + 1) (p + 1) xs
-basement f p (')':xs) | f == 0 = p + 1
-                      | otherwise = basement (f - 1) (p + 1) xs
-basement f p _ = p + 1
+walk :: String -> Int
+walk = foldl updateFloor 0
+
+basement :: String -> Maybe Int
+basement = fmap (subtract 1 . fst) . find ((== -1) . snd) . zip [1..] . scanl updateFloor 0
 
 main :: IO ()
 main = do
   args <- getArgs
   contents <- readFile (head args)
-  print (walk 0 contents)
-  print (basement 0 0 contents)
+  print (walk contents)
+  print (fromJust $ basement contents)
