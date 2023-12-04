@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.Set (Set)
 import qualified Data.Set as Set
 
@@ -18,10 +19,8 @@ repeated value seen (c:cs) ls | Set.member value seen = value
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2018/day01.txt" ReadMode
-  handler <- openFile "input/2018/day01.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let changes = map toChange $ lines contents
   print (sum changes)
   print (repeated 0 Set.empty [] changes)
-  hClose handler

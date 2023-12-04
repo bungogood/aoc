@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List.Split (splitOn)
 import Data.List (foldl')
 import Data.Map (Map)
@@ -33,10 +34,8 @@ sumProduct = sum . map (product . Map.elems . most . snd)
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2023/day02.txt" ReadMode
-  handler <- openFile "input/2023/day02.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let values = map toGame $ lines contents
   print (allUnderSumID (Map.fromList [("red", 12), ("green", 13), ("blue", 14)]) values)
   print (sumProduct values)
-  hClose handler

@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List.Split (splitOn)
 import Data.List (isInfixOf)
 
@@ -51,10 +52,8 @@ runner' (x, y) instrs = foldl (\acc coord -> acc + checker' coord reved) 0 coord
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2015/day06.txt" ReadMode
-  handler <- openFile "input/2015/day06.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let instr = map toInstr $ lines contents
   print (runner (1000, 1000) instr)
   print (runner' (1000, 1000) instr)
-  hClose handler

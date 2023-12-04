@@ -1,4 +1,5 @@
-import System.IO  
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Control.Monad
 import Data.List.Split
 import Data.List
@@ -19,10 +20,8 @@ topElves n = sum . take n . reverse . sort . map sum
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2022/day01.txt" ReadMode
-  handler <- openFile "input/2022/day01.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let elfData = elfCals contents
   print (bestElf elfData)
   print (topElves 3 elfData)
-  hClose handler

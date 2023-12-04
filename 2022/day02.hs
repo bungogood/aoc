@@ -1,4 +1,5 @@
-import System.IO  
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Control.Monad
 import Data.List.Split
 import Data.List
@@ -55,10 +56,8 @@ toGame = map (tuplify . map head . splitOn " ") . lines
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2022/day02.txt" ReadMode
-  handler <- openFile "input/2022/day02.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let symbols = toGame contents
   print ((points . map symbolMap) symbols)
   print ((points . map outcomeMap) symbols)
-  hClose handler

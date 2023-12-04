@@ -1,8 +1,8 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.Char (isDigit)
 import Data.Map (Map)
 import qualified Data.Map as Map
-import qualified Data.Set as Set
 
 -- https://adventofcode.com/2023/day/3
 
@@ -29,48 +29,40 @@ toItemsRec (x, y) acc (c:cs) rs
   where
     remaining = toNumber (x, y) acc ++ toItemsRec (x + 1, y) [] cs rs
 
-splitter :: [(Coord, Item)] -> (Map Coord Char, Map Coord (Coord, Int))
+splitter :: [(Coord, Item)] -> (Map Coord Char, [([Coord], Int)])
 splitter = foldl (\(sym, nums) item -> case item of
     ((x, y), Symbol c) -> (Map.insert (x, y) c sym, nums)
-    ((x, y), Number s) -> (sym, foldl (\a k -> Map.insert k idf a) nums locs)
-      where
-        idf = ((x, y), toNum s)
-        locs = [(x', y) | x' <- [x..x + length s - 1]]
-  ) (Map.empty, Map.empty)
+    ((x, y), Number s) -> let coords = [(x', y) | x' <- [x..x + length s - 1]]
+                          in (sym, (coords, toNum s) : nums)
+  ) (Map.empty, [])
 
 neighbours :: Coord -> [Coord]
 neighbours (x, y) = [(x + dx, y + dy) | dx <- [-1, 0, 1], dy <- [-1, 0, 1], dx /= 0 || dy /= 0]
 
-validNumberSum :: Map Coord Char -> Map Coord (Coord, Int) -> Int
-validNumberSum sym nums = sum . Set.map snd . foldl ttt Set.empty $ Map.keys sym
-  where 
-    ttt acc = foldl (nearComb nums) acc . neighbours
-    nearComb m acc n = case Map.lookup n m of
-          Just v -> Set.insert v acc
-          Nothing -> acc
+isHitSym :: Map Coord Char -> ([Coord], Int) -> Bool
+isHitSym sym = any (symAdj sym) . fst
+  where symAdj sym = any (`Map.member` sym) . neighbours
 
-tmp s (Just v) = Set.insert v s
-tmp s Nothing = s
+validNumberSum :: Map Coord Char -> [([Coord], Int)] -> Int
+validNumberSum sym = sum . map snd . filter (isHitSym sym)
 
 charCoords :: Char -> Map Coord Char -> [Coord]
 charCoords c = Map.keys . Map.filter (== c)
 
-numNearProd :: Map Coord (Coord, Int) -> Coord -> Set.Set Int
-numNearProd cs = Set.map snd . foldl (nearComb cs) Set.empty . neighbours
-  where nearComb m acc n = case Map.lookup n m of
-          Just v -> Set.insert v acc
-          Nothing -> acc
+numNearProd :: [([Coord], Int)] -> Coord -> Int
+numNearProd nums tar = case map snd $ filter (isAdj . fst) nums of
+    [a, b] -> a * b
+    _ -> 0
+  where isAdj coords = any (`elem` coords) (neighbours tar)
 
-prodNearChar :: Map Coord (Coord, Int) -> Char -> Map Coord Char -> [Set.Set Int]
-prodNearChar cs c = filter (\ls -> length ls == 2) . map (numNearProd cs) . charCoords c
+prodNearChar :: [([Coord], Int)] -> Char -> Map Coord Char -> Int
+prodNearChar cs c = sum . map (numNearProd cs) . charCoords c
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2023/day03.txt" ReadMode
-  handler <- openFile "input/2023/day03.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let tokens = toItems $ lines contents
   let (sym, nums) = splitter tokens
-  print (sum $ validNumberSum sym nums)
-  print (sum . map product $ prodNearChar nums '*' sym)
-  hClose handler
+  print (validNumberSum sym nums)
+  print (prodNearChar nums '*' sym)

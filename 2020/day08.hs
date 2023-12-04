@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Control.Monad
 import Data.List.Split
 import Data.List
@@ -44,10 +45,8 @@ readInstr = map (toTuple . splitOn " ") . lines
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2020/day08.txt" ReadMode
-  handler <- openFile "input/2020/day08.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let instructions = readInstr contents
   print (snd $ fsm instructions [] 0 0)
   print (fixer [] (head instructions) (tail instructions))
-  hClose handler

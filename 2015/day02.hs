@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List.Split
 
 -- https://adventofcode.com/2015/day/2
@@ -17,10 +18,8 @@ ribbon (l, w, h) = minimum [2 * l + 2 * w, 2 * w + 2 * h, 2 * h + 2 * l] + l * w
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2015/day02.txt" ReadMode
-  handler <- openFile "input/2015/day02.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let boxes = toBoxes contents
   print (sum . map wrapping $ boxes)
   print (sum . map ribbon $ boxes)
-  hClose handler

@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List
 
 -- https://adventofcode.com/2019/day/1
@@ -19,10 +20,8 @@ calFuel x
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2019/day01.txt" ReadMode
-  handler <- openFile "input/2019/day01.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let masses = findMasses contents
   print (sum $ map toFuel masses)
   print (sum $ map (calFuel . toFuel) masses)
-  hClose handler

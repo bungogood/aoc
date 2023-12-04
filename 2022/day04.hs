@@ -1,4 +1,5 @@
-import System.IO  
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Control.Monad
 import Data.List.Split
 import Data.List
@@ -29,10 +30,8 @@ overlap ((a, b), (c, d)) = (c >= a || d >= a) && (b >= c || b >= d)
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2022/day04.txt" ReadMode
-  handler <- openFile "input/2022/day04.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let ranges = readRanges contents
   print (length $ filter inside  ranges)
   print (length $ filter overlap ranges)
-  hClose handler

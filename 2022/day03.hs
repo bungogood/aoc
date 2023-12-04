@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Control.Monad
 import Data.List.Split
 import Data.Char
@@ -37,10 +38,8 @@ badges = sum . map (priority . head. common) . chunksOf 3
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2022/day03.txt" ReadMode
-  handler <- openFile "input/2022/day03.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let rucksakes = toRucksakes contents
   print (mistakes rucksakes)
   print (badges rucksakes)
-  hClose handler

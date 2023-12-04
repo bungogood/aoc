@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List
 
 -- https://adventofcode.com/2021/day/1
@@ -17,10 +18,8 @@ slidingWindow n = filter ((== n) . length) . map (take n) . tails
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2021/day01.txt" ReadMode
-  handler <- openFile "input/2021/day01.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let depths = findDepths contents
   print (increases depths)
   print (increases . map sum $ slidingWindow 3 depths)
-  hClose handler

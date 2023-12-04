@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List.Split
 import Data.Set (Set)
 import qualified Data.Set as Set
@@ -26,10 +27,8 @@ splitAlt s = (first, second)
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2015/day03.txt" ReadMode
-  handler <- openFile "input/2015/day03.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let (santa, robo) = splitAlt contents
   print (Set.size $ walk (0, 0) contents)
   print (Set.size $ walk (0, 0) santa `Set.union` walk (0, 0) robo)
-  hClose handler

@@ -1,4 +1,5 @@
-import System.IO  
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Control.Monad
 import Data.List
 
@@ -11,9 +12,7 @@ buffer n s
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2022/day06.txt" ReadMode
-  handler <- openFile "input/2022/day06.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   print (buffer 4 contents)
   print (buffer 14 contents)
-  hClose handler

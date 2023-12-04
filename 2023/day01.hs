@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List (find, isPrefixOf)
 import Data.Char (isDigit)
 import Control.Applicative ((<|>))
@@ -52,10 +53,8 @@ both s = digit s <|> numPrefix s
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2023/day01.txt" ReadMode
-  handler <- openFile "input/2023/day01.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let values = lines contents
   print (sum $ mapMaybe (firstLast digit) values)
   print (sum $ mapMaybe (firstLast both) values)
-  hClose handler

@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Crypto.Hash (MD5, Digest, hash)
 import Data.ByteString (ByteString)
 import Data.ByteArray.Encoding (Base(Base16), convertToBase)
@@ -20,10 +21,8 @@ finder n = matcher (C.pack (replicate n '0'))
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2015/day04.txt" ReadMode
-  handler <- openFile "input/2015/day04.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let input = head (lines contents)
   print (finder 5 input)
   print (finder 6 input)
-  hClose handler

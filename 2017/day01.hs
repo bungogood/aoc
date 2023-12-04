@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List
 import Data.Char (digitToInt)
 
@@ -15,10 +16,8 @@ counter = sum . map fst . filter (uncurry (==))
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2017/day01.txt" ReadMode
-  handler <- openFile "input/2017/day01.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let digits = toDigits contents
   print (counter $ offset 1 digits)
   print (counter $ offset (div (length digits) 2) digits)
-  hClose handler

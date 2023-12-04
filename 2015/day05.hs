@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List (isInfixOf, tails)
 
 -- https://adventofcode.com/2015/day/5
@@ -28,10 +29,8 @@ niceSecond s = pair s && repeated s
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2015/day05.txt" ReadMode
-  handler <- openFile "input/2015/day05.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   let inputs = lines contents
   print (length $ filter niceFirst inputs)
   print (length $ filter niceSecond inputs)
-  hClose handler

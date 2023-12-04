@@ -1,6 +1,9 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 import Data.List.Split (splitOn)
 import Data.List (intersect)
+
+-- https://adventofcode.com/2023/day/4
 
 type Card = (Int, [Int], [Int])
 
@@ -33,8 +36,8 @@ countCards cards = fst . foldl cont (0, []) $ map (length . dups) cards
 
 main :: IO ()
 main = do
-  -- contents <- readFile "test/2023/day04.txt"
-  contents <- readFile "input/2023/day04.txt"
+  args <- getArgs
+  contents <- readFile (head args)
   let cards = map toCard . lines $ contents
   print $ sum $ map (dupsPow 2) cards
   print $ countCards cards

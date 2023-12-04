@@ -1,4 +1,5 @@
-import System.IO
+import System.Environment (getArgs)
+import System.IO (readFile)
 
 -- https://adventofcode.com/2015/day/1
 
@@ -15,9 +16,7 @@ basement f p _ = p + 1
 
 main :: IO ()
 main = do
-  -- handler <- openFile "test/2015/day01.txt" ReadMode
-  handler <- openFile "input/2015/day01.txt" ReadMode
-  contents <- hGetContents handler
+  args <- getArgs
+  contents <- readFile (head args)
   print (walk 0 contents)
   print (basement 0 0 contents)
-  hClose handler
