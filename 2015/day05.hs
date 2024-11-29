@@ -1,6 +1,6 @@
+import Data.List (isInfixOf, tails)
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Data.List (isInfixOf, tails)
 
 -- https://adventofcode.com/2015/day/5
 
@@ -17,11 +17,11 @@ niceFirst :: String -> Bool
 niceFirst s = vowels s && double s && not (bad s)
 
 pair :: String -> Bool
-pair (x:y:xs) = [x,y] `isInfixOf` xs || pair (y:xs)
+pair (x : y : xs) = [x, y] `isInfixOf` xs || pair (y : xs)
 pair _ = False
 
 repeated :: String -> Bool
-repeated (x:y:z:xs) = x == z || repeated (y:z:xs)
+repeated (x : y : z : xs) = x == z || repeated (y : z : xs)
 repeated _ = False
 
 niceSecond :: String -> Bool

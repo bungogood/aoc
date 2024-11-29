@@ -1,6 +1,6 @@
+import Data.List
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Data.List
 
 -- https://adventofcode.com/2021/day/1
 

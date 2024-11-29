@@ -1,9 +1,9 @@
+import Control.Monad
+import Data.Char
+import Data.List
+import Data.List.Split
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Control.Monad
-import Data.List.Split
-import Data.List
-import Data.Char
 
 -- https://adventofcode.com/2022/day/4
 
@@ -11,7 +11,7 @@ toNum :: String -> Int
 toNum s = read s :: Int
 
 toList :: (Int, Int) -> [Int]
-toList (x, y) = [x..y]
+toList (x, y) = [x .. y]
 
 toTuple :: [a] -> (a, a)
 toTuple [x, y] = (x, y)
@@ -33,5 +33,5 @@ main = do
   args <- getArgs
   contents <- readFile (head args)
   let ranges = readRanges contents
-  print (length $ filter inside  ranges)
+  print (length $ filter inside ranges)
   print (length $ filter overlap ranges)

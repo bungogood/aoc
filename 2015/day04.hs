@@ -1,9 +1,9 @@
+import Crypto.Hash (Digest, MD5, hash)
+import Data.ByteArray.Encoding (Base (Base16), convertToBase)
+import Data.ByteString (ByteString)
+import Data.ByteString.Char8 qualified as C
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Crypto.Hash (MD5, Digest, hash)
-import Data.ByteString (ByteString)
-import Data.ByteArray.Encoding (Base(Base16), convertToBase)
-import qualified Data.ByteString.Char8 as C
 
 -- https://adventofcode.com/2015/day/4
 
@@ -14,7 +14,7 @@ match :: ByteString -> ByteString -> Bool
 match prefix input = C.isPrefixOf prefix (md5Hash input)
 
 matcher :: ByteString -> String -> Int
-matcher prefix input = head [i | i <- [1..], match prefix (C.pack (input ++ show i))]
+matcher prefix input = head [i | i <- [1 ..], match prefix (C.pack (input ++ show i))]
 
 finder :: Int -> String -> Int
 finder n = matcher (C.pack (replicate n '0'))

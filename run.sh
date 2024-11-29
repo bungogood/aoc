@@ -18,4 +18,4 @@ case $FLAG in
     ;;
 esac
 
-runghc $YEAR/day$DAY.hs $INPUT_FILE
+runghc -Wno-x-partial $YEAR/day$DAY.hs $INPUT_FILE

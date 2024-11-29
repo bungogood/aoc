@@ -1,8 +1,8 @@
+import Control.Monad
+import Data.List
+import Data.List.Split
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Control.Monad
-import Data.List.Split
-import Data.List
 
 -- https://adventofcode.com/2022/day/1
 

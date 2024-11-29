@@ -1,30 +1,31 @@
+import Control.Monad
+import Data.List
+import Data.List.Split
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Control.Monad
-import Data.List.Split
-import Data.List
 
 -- https://adventofcode.com/2022/day/2
 
 data Symbol = Rock | Paper | Scissors deriving (Eq, Show)
 
 beats :: Symbol -> Symbol
-beats Rock     = Paper
-beats Paper    = Scissors
+beats Rock = Paper
+beats Paper = Scissors
 beats Scissors = Rock
 
 losses :: Symbol -> Symbol
 losses = beats . beats
 
 shapePoints :: Symbol -> Int
-shapePoints Rock     = 1
-shapePoints Paper    = 2
+shapePoints Rock = 1
+shapePoints Paper = 2
 shapePoints Scissors = 3
 
 outcomePoints :: Symbol -> Symbol -> Int
-outcomePoints x y | beats x == y = 6 -- win
-                  | x == beats y = 0 -- loss
-                  | otherwise = 3    -- draw
+outcomePoints x y
+  | beats x == y = 6 -- win
+  | x == beats y = 0 -- loss
+  | otherwise = 3 -- draw
 
 game :: Symbol -> Symbol -> Int
 game x y = outcomePoints x y + shapePoints y
@@ -52,7 +53,7 @@ toGame :: String -> [(Symbol, Char)]
 toGame = map (tuplify . map head . splitOn " ") . lines
   where
     tuplify :: [Char] -> (Symbol, Char)
-    tuplify [x,y] = (mapSymbol x, y)
+    tuplify [x, y] = (mapSymbol x, y)
 
 main :: IO ()
 main = do

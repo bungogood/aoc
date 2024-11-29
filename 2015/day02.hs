@@ -1,6 +1,6 @@
+import Data.List.Split
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Data.List.Split
 
 -- https://adventofcode.com/2015/day/2
 

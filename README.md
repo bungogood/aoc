@@ -41,6 +41,8 @@ cabal install --lib [module]
 Cabal packages:
 
 -   `cryptonite`
+-   `containers`
+-   `bytestring`
 -   `memory`
 -   `split`
 -   `QuickCheck`

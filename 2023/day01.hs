@@ -1,9 +1,9 @@
+import Control.Applicative ((<|>))
+import Data.Char (isDigit)
+import Data.List (find, isPrefixOf)
+import Data.Maybe (mapMaybe)
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Data.List (find, isPrefixOf)
-import Data.Char (isDigit)
-import Control.Applicative ((<|>))
-import Data.Maybe (mapMaybe)
 
 -- https://adventofcode.com/2023/day/1
 
@@ -11,8 +11,8 @@ toNum :: String -> Int
 toNum s = read s :: Int
 
 pairs :: [(String, Char)]
-pairs = [
-    ("zero", '0'),
+pairs =
+  [ ("zero", '0'),
     ("one", '1'),
     ("two", '2'),
     ("three", '3'),
@@ -29,23 +29,23 @@ numPrefix s = snd <$> find (flip isPrefixOf s . fst) pairs
 
 findFirst :: ([a] -> Maybe b) -> [a] -> Maybe b
 findFirst _ [] = Nothing
-findFirst f (x:xs) = f (x:xs) <|> findFirst f xs
+findFirst f (x : xs) = f (x : xs) <|> findFirst f xs
 
 findLast :: ([a] -> Maybe b) -> [a] -> Maybe b
 findLast f xs = walk f [] (reverse xs)
   where
     walk :: ([a] -> Maybe b) -> [a] -> [a] -> Maybe b
     walk _ _ [] = Nothing
-    walk f acc (x:xs) = f (x:acc) <|> walk f (x:acc) xs
+    walk f acc (x : xs) = f (x : acc) <|> walk f (x : acc) xs
 
 firstLast :: (String -> Maybe Char) -> String -> Maybe Int
 firstLast f s = do
-    firstDigit <- findFirst f s
-    lastDigit <- findLast f s
-    Just (toNum [firstDigit, lastDigit])
+  firstDigit <- findFirst f s
+  lastDigit <- findLast f s
+  Just (toNum [firstDigit, lastDigit])
 
 digit :: String -> Maybe Char
-digit (x:_) | isDigit x = Just x
+digit (x : _) | isDigit x = Just x
 digit _ = Nothing
 
 both :: String -> Maybe Char

@@ -1,24 +1,26 @@
+import Data.List (foldl')
+import Data.List.Split (splitOn)
+import Data.Map (Map)
+import Data.Map qualified as Map
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Data.List.Split (splitOn)
-import Data.List (foldl')
-import Data.Map (Map)
-import qualified Data.Map as Map
 
 -- https://adventofcode.com/2023/day/2
 
 type Game = (Int, [Round])
+
 type Round = [(String, Int)]
 
 toNum :: String -> Int
 toNum = read
 
 toGame :: String -> Game
-toGame vs = let [game, rest] = splitOn ":" vs
-                gid = toNum . last . words
-                rounds = map (map toPair . splitOn ",") . splitOn ";"
-                toPair s = let [count, cube] = words s in (cube, toNum count)
-            in (gid game, rounds rest)
+toGame vs =
+  let [game, rest] = splitOn ":" vs
+      gid = toNum . last . words
+      rounds = map (map toPair . splitOn ",") . splitOn ";"
+      toPair s = let [count, cube] = words s in (cube, toNum count)
+   in (gid game, rounds rest)
 
 under :: Map String Int -> Map String Int -> Bool
 under limits = all (\(cube, count) -> count <= Map.findWithDefault 0 cube limits) . Map.toList

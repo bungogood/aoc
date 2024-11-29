@@ -1,7 +1,7 @@
+import Data.Char (digitToInt)
+import Data.List
 import System.Environment (getArgs)
 import System.IO (readFile)
-import Data.List
-import Data.Char (digitToInt)
 
 -- https://adventofcode.com/2017/day/1
 
