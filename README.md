@@ -20,6 +20,7 @@ runghc [year]/day[day].hs input/[year]/day[day].txt
 
 | Year | Progress |
 | ---- | -------- |
+| 2024 | 1/25     |
 | 2023 | 6/25     |
 | 2022 | 5/25     |
 | 2021 | 1/25     |
